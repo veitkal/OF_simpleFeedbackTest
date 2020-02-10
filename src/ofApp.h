@@ -43,6 +43,7 @@ class ofApp : public ofBaseApp{
         ofxButton  paramFeedReset;
         ofxToggle  paramDrawPart;
         ofxToggle  paramDrawClear;
+        ofxToggle  paramFeedMixToggle;
 
 		ofxPanel myGui;
 

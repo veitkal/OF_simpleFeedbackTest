@@ -19,6 +19,7 @@ uniform float uFeedAlpha;
 uniform vec4 uFeedHsv;
 uniform float uFeedBrightness;
 uniform float uFeedContrast;
+uniform int uFeedMixToggle;
 
 //texCoordVarying is declared over in the vertex shader, this is the x y coordinate of which pixel the gpu is drawing on the screen.  this varies per frame so thats why this datatype is called varying. generally speaking variables defined within the shaders are varying because they change with each pixel and variables definied within oF (or whatever wrapper yr using to send info to shaders) will be uniform because they are the same for each pixel but can change on a frame by frame basis
 in vec2 v_texCoord;
@@ -69,11 +70,17 @@ void main()
     tempColor.a = mix(feedback_color.a, fract(tex0_color.a), uFeedHsv.a);
     feedback_color = tempColor;
 
-    //just mixxing the displaced channel into the frame
-    color=uFeedMix*feedback_color;
+    contrastAdjust(feedback_color, uFeedContrast);
+    brightnessAdjust(feedback_color, uFeedBrightness);
 
+    if (uFeedMixToggle==0) {
+    //mix color with displaced channel
+    color=uFeedMix*feedback_color;
+    } else {
     ///or try mixxxitwithitself!
     color=mix(tex0_color,feedback_color,uFeedMix);
+}
+
 
    /* CONVERT rgb2hsv hsv2rgb .
     Not used now but saving to use with hsv later*/
@@ -89,8 +96,8 @@ void main()
 //    color = vec4(p,p,p,1.0);
 //    color = mix( vec4(1.0,1.0,1.0,1.0),color,uFeedContrast);
 
-    contrastAdjust(color, uFeedContrast);
-    brightnessAdjust(color, uFeedBrightness);
+//    contrastAdjust(color, uFeedContrast);
+//    brightnessAdjust(color, uFeedBrightness);
     //alphaControl
     color.a = uFeedAlpha;
 

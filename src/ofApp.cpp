@@ -5,6 +5,7 @@ void ofApp::setup(){
 	// Set background colour to black
 	ofBackground(0);
     ofSetVerticalSync(true);
+    ofSetFrameRate(60);
 
 	// Setup particle system
 	myParticleSystem.setup();
@@ -25,6 +26,7 @@ void ofApp::setup(){
 
     myGui.add(feedLabel.setup("Feedback ctrl", ""));
     myGui.add(paramDrawClear.setup("Clear Auto", true));
+    myGui.add(paramFeedMixToggle.setup("Toggle mix mode", true));
     myGui.add(paramFeedReset.setup("feedReset"));
     myGui.add(paramFeedMix.set("feedMix", 1., -5., 10.));
     myGui.add(paramFeedAlpha.set("feedAlpha", 1., 0., 1.));
@@ -111,6 +113,7 @@ void ofApp::draw(){
     feedbackShader.setUniform4f("uFeedHsv",paramFeedHsv);
     feedbackShader.setUniform1f("uFeedBrightness",paramFeedBrightness);
     feedbackShader.setUniform1f("uFeedContrast",paramFeedContrast);
+    feedbackShader.setUniform1i("uFeedMixToggle",paramFeedMixToggle);
 
     vec2 feedDisp = vec2(paramFeedDispX,paramFeedDispY);
     //ofVec2 feedDis;

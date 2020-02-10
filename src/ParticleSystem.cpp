@@ -15,8 +15,9 @@ void ParticleSystem::setup() {
 		}
 
 	// Initialize the mesh
-    //myMesh.setMode(OF_PRIMITIVE_LINES);
-    myMesh.setMode(OF_PRIMITIVE_POINTS);
+//  myMesh.setMode(OF_PRIMITIVE_LINES);
+    //myMesh.setMode(OF_PRIMITIVE_POINTS);
+    myMesh.setMode(OF_PRIMITIVE_TRIANGLES);
 
 	// Create a vertex for each particle
 	for (int i = 0; i < myParticles.size(); i++) {
@@ -41,6 +42,18 @@ void ParticleSystem::setup() {
 				myMesh.addIndex(idx + 1);
 			}
 		}
+
+    for (int i = 0; i < gridSizeX; i++) {
+        for (int j = 0; j < gridSizeY; j++) {
+            int idx = j + gridSizeY * i;
+
+            if (i < gridSizeX - 1 && j < gridSizeX - 1) {
+                myMesh.addTriangle(idx, idx + 1, idx + gridSizeY);
+                myMesh.addTriangle(idx + 1, idx + gridSizeY, idx + gridSizeY + 1);
+            }
+
+        }
+    }
 }
 
 //--------------------------------------------------------------
